@@ -42,15 +42,6 @@ jobs:
           base64 --decode _site/assets/card1.complete.b64 > _site/assets/card1.jpg
           echo "f733b35d2d38f1f23fd00e2ca8d07f7ad1b9380887ac77f5b0e38d748cba7048  _site/assets/card1.jpg" | sha256sum -c -
           sed -i 's#</style>#.c1 .copy{display:none!important}</style>#' _site/index.html
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-          p = Path('_site/index.html')
-          s = p.read_text(encoding='utf-8')
-          replacement = '<article class="card c2"><div class="art"></div><div class="shade"></div><div class="copy"><h2>2026년 신소재의 밤에 오신 여러분을 환영합니다.</h2></div></article>'
-          s = re.sub(r'<article class="card c2">.*?</article>', replacement, s, count=1, flags=re.S)
-          p.write_text(s, encoding='utf-8')
-          PY
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
