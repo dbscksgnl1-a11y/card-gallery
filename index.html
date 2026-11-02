@@ -6,26 +6,191 @@
 <meta name="theme-color" content="#08080a">
 <title>Momentum Cards</title>
 <style>
-:root{--bg:#08080a;--fg:#f5f5f7;--muted:#a1a1a6;--pad:clamp(20px,4vw,64px);--gap:clamp(18px,2vw,32px)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Noto Sans KR",sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}.top{position:fixed;z-index:30;left:0;right:0;top:0;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad);font-size:11px;letter-spacing:.14em;background:linear-gradient(#08080add,transparent);pointer-events:none}.muted{color:var(--muted)}.hero,.end{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:12vh var(--pad);max-width:1300px;margin:auto}.hero h1,.end h2{margin:0;max-width:980px;font-size:clamp(54px,9vw,132px);line-height:.93;letter-spacing:-.06em}.hero p,.end p{max-width:600px;margin:34px 0 0;color:var(--muted);font-size:clamp(16px,1.4vw,20px);line-height:1.55}.cue{margin-top:48px;width:28px;height:44px;border:1px solid #ffffff30;border-radius:99px;position:relative}.cue:after{content:"";position:absolute;width:3px;height:8px;background:#fff;border-radius:99px;left:12px;top:9px;animation:cue 1.8s ease-in-out infinite}@keyframes cue{50%{transform:translateY(14px);opacity:.45}}
-.story{position:relative}.stage{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center}.track{display:flex;gap:var(--gap);width:max-content;padding:0 max(var(--pad),calc((100vw - min(1180px,84vw))/2));will-change:transform;transform:translate3d(0,0,0)}.card{--local:1;position:relative;flex:0 0 min(1180px,84vw);height:min(74svh,760px);border-radius:clamp(26px,3.4vw,48px);overflow:hidden;background:#141416;isolation:isolate;transform:scale(calc(1 - min(var(--local),1)*.055));opacity:calc(1 - min(var(--local),1)*.38);filter:saturate(calc(1 - min(var(--local),1)*.18));box-shadow:0 36px 100px #0007}.art{position:absolute;inset:0;transform:scale(calc(1.03 + min(var(--local),1)*.035))}.c1 .art{background:radial-gradient(circle at 65% 35%,#8ca0ff 0 6%,#5265d5 15%,#20264d 35%,#090a0e 70%)}.c2 .art{background:radial-gradient(circle at 30% 40%,#5de7ff 0 5%,#1f7899 18%,transparent 38%),linear-gradient(145deg,#07111d,#0a3556 52%,#03070b)}.c3 .art{background:radial-gradient(circle at 68% 34%,#ffc97f 0 6%,#d86d28 18%,transparent 38%),linear-gradient(155deg,#170b07,#4a1f0c 55%,#090606)}.c4 .art{background:radial-gradient(circle at 70% 28%,#e9bdff 0 6%,#7840ae 20%,transparent 40%),linear-gradient(160deg,#150d24,#341c43 55%,#08070b)}.c5 .art{background:radial-gradient(ellipse at 52% 68%,#fff 0 1%,#80baff 2%,transparent 24%),linear-gradient(#070708 48%,#1a2029 76%,#050506)}.shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 30%,#000c 100%),linear-gradient(90deg,#0005,transparent 58%)}.copy{position:absolute;z-index:2;left:clamp(24px,5vw,72px);right:clamp(24px,5vw,72px);bottom:clamp(26px,5vw,64px);max-width:720px;transform:translateY(calc(min(var(--local),1)*18px))}.num{margin:0 0 14px;font-size:11px;font-weight:700;letter-spacing:.14em;color:#ffffffb3}.copy h2{margin:0;font-size:clamp(36px,5.6vw,78px);line-height:.98;letter-spacing:-.05em}.copy p:last-child{margin:18px 0 0;max-width:570px;color:#ffffffbd;font-size:clamp(14px,1.5vw,18px);line-height:1.5}.progress{position:absolute;z-index:10;left:50%;bottom:34px;width:min(220px,38vw);height:2px;transform:translateX(-50%);background:#ffffff2a;border-radius:99px;overflow:hidden}.progress span{display:block;width:100%;height:100%;background:#fff;transform:scaleX(0);transform-origin:left}.dots{position:absolute;z-index:11;right:var(--pad);bottom:24px;display:flex;gap:6px}.dot{width:22px;height:22px;border:0;background:transparent;padding:0;display:grid;place-items:center}.dot:before{content:"";width:5px;height:5px;border-radius:50%;background:#ffffff55;transition:.2s ease}.dot.active:before{background:#fff;transform:scale(1.65)}
-@media(max-width:700px){.top span{display:none}.hero{padding-top:17vh}.card{flex-basis:88vw;height:68svh}.copy h2{font-size:clamp(34px,10.6vw,52px)}.progress{left:var(--pad);transform:none;width:110px}.dots{right:var(--pad)}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cue:after{animation:none}}
+:root{--bg:#08080a;--fg:#f5f5f7;--muted:#a1a1a6;--pad:clamp(20px,4vw,64px)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Noto Sans KR",sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.top{position:fixed;z-index:30;left:0;right:0;top:0;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad);font-size:11px;letter-spacing:.14em;background:linear-gradient(#08080add,transparent);pointer-events:none}
+.muted{color:var(--muted)}
+.hero,.end{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:12vh var(--pad);max-width:1300px;margin:auto}
+.hero h1,.end h2{margin:0;max-width:980px;font-size:clamp(54px,9vw,132px);line-height:.93;letter-spacing:-.06em}
+.hero p,.end p{max-width:600px;margin:34px 0 0;color:var(--muted);font-size:clamp(16px,1.4vw,20px);line-height:1.55}
+.cue{margin-top:48px;width:28px;height:44px;border:1px solid #ffffff30;border-radius:99px;position:relative}
+.cue:after{content:"";position:absolute;width:3px;height:8px;background:#fff;border-radius:99px;left:12px;top:9px;animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{50%{transform:translateY(14px);opacity:.45}}
+.story{position:relative;height:600svh}
+.stage{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;place-items:center;perspective:1200px}
+.deck{position:relative;width:min(1180px,84vw);height:min(74svh,760px)}
+.card{--x:100vw;--scale:.94;--opacity:0;--blur:0px;position:absolute;inset:0;border-radius:clamp(26px,3.4vw,48px);overflow:hidden;background:#141416;isolation:isolate;transform:translate3d(var(--x),0,0) scale(var(--scale));opacity:var(--opacity);filter:blur(var(--blur));box-shadow:0 36px 100px #0007;will-change:transform,opacity,filter;pointer-events:none}
+.art{position:absolute;inset:0;transform:scale(1.035);will-change:transform}
+.c1 .art{background:radial-gradient(circle at 65% 35%,#8ca0ff 0 6%,#5265d5 15%,#20264d 35%,#090a0e 70%)}
+.c2 .art{background:radial-gradient(circle at 30% 40%,#5de7ff 0 5%,#1f7899 18%,transparent 38%),linear-gradient(145deg,#07111d,#0a3556 52%,#03070b)}
+.c3 .art{background:radial-gradient(circle at 68% 34%,#ffc97f 0 6%,#d86d28 18%,transparent 38%),linear-gradient(155deg,#170b07,#4a1f0c 55%,#090606)}
+.c4 .art{background:radial-gradient(circle at 70% 28%,#e9bdff 0 6%,#7840ae 20%,transparent 40%),linear-gradient(160deg,#150d24,#341c43 55%,#08070b)}
+.c5 .art{background:radial-gradient(ellipse at 52% 68%,#fff 0 1%,#80baff 2%,transparent 24%),linear-gradient(#070708 48%,#1a2029 76%,#050506)}
+.shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 30%,#000c 100%),linear-gradient(90deg,#0005,transparent 58%)}
+.copy{position:absolute;z-index:2;left:clamp(24px,5vw,72px);right:clamp(24px,5vw,72px);bottom:clamp(26px,5vw,64px);max-width:720px;transform:translate3d(0,var(--copy-y,0px),0);opacity:var(--copy-opacity,1);will-change:transform,opacity}
+.num{margin:0 0 14px;font-size:11px;font-weight:700;letter-spacing:.14em;color:#ffffffb3}
+.copy h2{margin:0;font-size:clamp(36px,5.6vw,78px);line-height:.98;letter-spacing:-.05em}
+.copy p:last-child{margin:18px 0 0;max-width:570px;color:#ffffffbd;font-size:clamp(14px,1.5vw,18px);line-height:1.5}
+.progress{position:absolute;z-index:10;left:50%;bottom:34px;width:min(220px,38vw);height:2px;transform:translateX(-50%);background:#ffffff2a;border-radius:99px;overflow:hidden}
+.progress span{display:block;width:100%;height:100%;background:#fff;transform:scaleX(0);transform-origin:left;will-change:transform}
+.dots{position:absolute;z-index:11;right:var(--pad);bottom:24px;display:flex;gap:6px}
+.dot{width:22px;height:22px;border:0;background:transparent;padding:0;display:grid;place-items:center;cursor:pointer}
+.dot:before{content:"";width:5px;height:5px;border-radius:50%;background:#ffffff55;transition:transform .25s ease,background .25s ease}
+.dot.active:before{background:#fff;transform:scale(1.65)}
+@media(max-width:700px){.top span{display:none}.hero{padding-top:17vh}.deck{width:88vw;height:68svh}.copy h2{font-size:clamp(34px,10.6vw,52px)}.progress{left:var(--pad);transform:none;width:110px}.dots{right:var(--pad)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cue:after{animation:none}.card{filter:none!important}}
 </style>
 </head>
 <body>
 <div class="top"><b>MOMENTUM</b><span class="muted">SCROLL TO EXPLORE</span></div>
 <section class="hero"><p class="muted">SCROLL-DRIVEN STORY</p><h1>문장을 넘기듯,<br>이미지를 넘기다.</h1><p>세로 스크롤을 가로 이동으로 변환해 카드가 자연스럽게 좌우로 이어지는 처음 방식입니다.</p><div class="cue"></div></section>
-<section class="story" id="story"><div class="stage" id="stage"><div class="progress"><span id="bar"></span></div><div class="track" id="track">
-<article class="card c1"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">01 · BEGIN</p><h2>첫 문장은<br>천천히 등장합니다.</h2><p>카드가 중앙에 가까워질수록 선명해지고 커집니다.</p></div></article>
-<article class="card c2"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">02 · FLOW</p><h2>스크롤은<br>움직임의 타임라인.</h2><p>아래로 스크롤할수록 카드가 왼쪽으로 미끄러지며 다음 장이 오른쪽에서 들어옵니다.</p></div></article>
-<article class="card c3"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">03 · FOCUS</p><h2>한 장씩<br>시선이 머뭅니다.</h2><p>한 순간에 하나의 메시지에 집중하도록 큰 카드와 넓은 여백을 사용합니다.</p></div></article>
-<article class="card c4"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">04 · DEPTH</p><h2>미세한 변화로<br>깊이를 만듭니다.</h2><p>scale과 opacity의 변화로 과하지 않은 입체감을 줍니다.</p></div></article>
-<article class="card c5"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">05 · END</p><h2>마지막 카드 뒤에는<br>다음 이야기가 이어집니다.</h2><p>이 구조에 실제 문구 이미지 카드만 교체해서 사용할 수 있습니다.</p></div></article>
-</div><div class="dots" id="dots"></div></div></section>
+<section class="story" id="story">
+  <div class="stage" id="stage">
+    <div class="deck" id="deck">
+      <article class="card c1"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">01 · BEGIN</p><h2>첫 문장은<br>천천히 등장합니다.</h2><p>카드가 중앙에 가까워질수록 선명해지고 커집니다.</p></div></article>
+      <article class="card c2"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">02 · FLOW</p><h2>스크롤은<br>움직임의 타임라인.</h2><p>아래로 스크롤할수록 카드가 왼쪽으로 미끄러지며 다음 장이 오른쪽에서 들어옵니다.</p></div></article>
+      <article class="card c3"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">03 · FOCUS</p><h2>한 장씩<br>시선이 머뭅니다.</h2><p>한 순간에 하나의 메시지에 집중하도록 큰 카드와 넓은 여백을 사용합니다.</p></div></article>
+      <article class="card c4"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">04 · DEPTH</p><h2>미세한 변화로<br>깊이를 만듭니다.</h2><p>scale과 opacity의 변화로 과하지 않은 입체감을 줍니다.</p></div></article>
+      <article class="card c5"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">05 · END</p><h2>마지막 카드 뒤에는<br>다음 이야기가 이어집니다.</h2><p>이 구조에 실제 문구 이미지 카드만 교체해서 사용할 수 있습니다.</p></div></article>
+    </div>
+    <div class="progress"><span id="bar"></span></div>
+    <div class="dots" id="dots"></div>
+  </div>
+</section>
 <section class="end"><p class="muted">READY TO EXTEND</p><h2>이제 콘텐츠만<br>바꾸면 됩니다.</h2><p>이미지와 문구, 카드 수만 바꿔도 같은 가로 스크롤 구조를 그대로 사용할 수 있습니다.</p></section>
 <script>
-(()=>{const story=document.querySelector('#story'),stage=document.querySelector('#stage'),track=document.querySelector('#track'),cards=[...document.querySelectorAll('.card')],bar=document.querySelector('#bar'),dots=document.querySelector('#dots');let maxX=0,startX=0,endX=0,travel=1,target=0,current=0,active=0;const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));cards.forEach((_,i)=>{const d=document.createElement('button');d.className='dot';d.setAttribute('aria-label',(i+1)+'번 카드');d.onclick=()=>go(i);dots.appendChild(d)});const db=[...dots.children];function measure(){track.style.transform='translate3d(0,0,0)';const sw=stage.clientWidth,cs=getComputedStyle(track),pl=parseFloat(cs.paddingLeft)||0,pr=parseFloat(cs.paddingRight)||0;maxX=Math.max(0,track.scrollWidth-sw);const first=cards[0],last=cards.at(-1),vc=sw/2;startX=Math.max(0,pl+first.offsetWidth/2-vc);endX=Math.max(startX,last.offsetLeft+last.offsetWidth/2-vc+pr*.05);maxX=Math.min(maxX,endX);travel=Math.max(innerHeight*2,maxX*1.15);story.style.height=(travel+innerHeight)+'px';update()}function progress(){return clamp(-story.getBoundingClientRect().top/travel,0,1)}function update(){const p=progress();target=startX+p*(maxX-startX);bar.style.transform=`scaleX(${p})`}function render(){current+=(target-current)*.085;if(Math.abs(target-current)<.08)current=target;track.style.transform=`translate3d(${-current}px,0,0)`;let best=1e9,idx=0;const vc=innerWidth/2;cards.forEach((c,i)=>{const center=c.offsetLeft+c.offsetWidth/2-current,d=Math.abs(center-vc),n=Math.min(1,d/(innerWidth*.78));c.style.setProperty('--local',n.toFixed(4));if(d<best){best=d;idx=i}});active=idx;db.forEach((d,i)=>d.classList.toggle('active',i===active));requestAnimationFrame(render)}function go(i){const card=cards[i],x=clamp(card.offsetLeft+card.offsetWidth/2-innerWidth/2,startX,maxX),p=(x-startX)/Math.max(1,maxX-startX),top=scrollY+story.getBoundingClientRect().top;scrollTo({top:top+p*travel,behavior:'smooth'})}addEventListener('scroll',update,{passive:true});addEventListener('resize',measure);addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(Math.min(cards.length-1,active+1));if(e.key==='ArrowLeft')go(Math.max(0,active-1))});measure();render()})();
+(()=>{
+  const story=document.querySelector('#story');
+  const cards=[...document.querySelectorAll('.card')];
+  const bar=document.querySelector('#bar');
+  const dots=document.querySelector('#dots');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+  const ease=t=>1-Math.pow(1-clamp(t),3);
+  let active=0;
+  let targetProgress=0;
+  let smoothProgress=0;
+  let travel=1;
+
+  cards.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='dot';
+    d.setAttribute('aria-label',`${i+1}번 카드로 이동`);
+    d.addEventListener('click',()=>go(i));
+    dots.appendChild(d);
+  });
+  const dotList=[...dots.children];
+
+  function measure(){
+    travel=Math.max(innerHeight*3.2,(cards.length-1)*innerHeight*1.05);
+    story.style.height=`${travel+innerHeight}px`;
+    updateTarget();
+  }
+
+  function storyProgress(){
+    const top=story.getBoundingClientRect().top;
+    return clamp(-top/travel);
+  }
+
+  function updateTarget(){
+    targetProgress=storyProgress();
+  }
+
+  function paint(p){
+    const maxIndex=cards.length-1;
+    const timeline=p*maxIndex;
+    const base=Math.min(Math.floor(timeline),maxIndex);
+    const local=timeline-base;
+    const next=Math.min(base+1,maxIndex);
+
+    cards.forEach((card,i)=>{
+      let x=110;
+      let scale=.94;
+      let opacity=0;
+      let blur=0;
+      let copyY=18;
+      let copyOpacity=0;
+      let z=0;
+
+      if(i<base){
+        x=-22;
+        scale=.94;
+        opacity=0;
+        blur=reduce?0:2;
+        z=1;
+      }
+
+      if(i===base){
+        const t=ease(local);
+        x=-22*t;
+        scale=1-.055*t;
+        opacity=1-t;
+        blur=reduce?0:1.5*t;
+        copyY=-10*t;
+        copyOpacity=1-t*.9;
+        z=3;
+      }
+
+      if(i===next && next!==base){
+        const t=ease(local);
+        x=110*(1-t);
+        scale=.94+.06*t;
+        opacity=clamp(t*1.18);
+        blur=reduce?0:2.2*(1-t);
+        copyY=22*(1-t);
+        copyOpacity=clamp((t-.08)/.92);
+        z=4;
+      }
+
+      if(base===maxIndex && i===maxIndex){
+        x=0;scale=1;opacity=1;blur=0;copyY=0;copyOpacity=1;z=4;
+      }
+
+      card.style.setProperty('--x',`${x}vw`);
+      card.style.setProperty('--scale',scale.toFixed(4));
+      card.style.setProperty('--opacity',opacity.toFixed(4));
+      card.style.setProperty('--blur',`${blur.toFixed(2)}px`);
+      card.style.setProperty('--copy-y',`${copyY.toFixed(2)}px`);
+      card.style.setProperty('--copy-opacity',copyOpacity.toFixed(4));
+      card.style.zIndex=z;
+    });
+
+    const nearest=Math.round(timeline);
+    active=clamp(nearest,0,maxIndex);
+    dotList.forEach((d,i)=>d.classList.toggle('active',i===active));
+    bar.style.transform=`scaleX(${p})`;
+  }
+
+  function render(){
+    if(reduce){
+      smoothProgress=targetProgress;
+    }else{
+      smoothProgress+=(targetProgress-smoothProgress)*.115;
+      if(Math.abs(targetProgress-smoothProgress)<.00015)smoothProgress=targetProgress;
+    }
+    paint(smoothProgress);
+    requestAnimationFrame(render);
+  }
+
+  function go(i){
+    const p=i/Math.max(1,cards.length-1);
+    const storyTop=scrollY+story.getBoundingClientRect().top;
+    scrollTo({top:storyTop+p*travel,behavior:reduce?'auto':'smooth'});
+  }
+
+  addEventListener('scroll',updateTarget,{passive:true});
+  addEventListener('resize',measure);
+  addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight')go(Math.min(cards.length-1,active+1));
+    if(e.key==='ArrowLeft')go(Math.max(0,active-1));
+  });
+
+  measure();
+  paint(0);
+  render();
+})();
 </script>
 </body>
 </html>
