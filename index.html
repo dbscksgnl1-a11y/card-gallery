@@ -20,8 +20,10 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 .deck{position:relative;width:min(1180px,92vw);height:100svh}
 .card{--y:100vh;--scale:1;--opacity:0;--blur:0px;--copy-y:0px;--copy-opacity:1;position:absolute;inset:0;background:var(--bg);transform:translate3d(0,var(--y),0) scale(var(--scale));opacity:var(--opacity);filter:blur(var(--blur));will-change:transform,opacity,filter;pointer-events:none}
 .art{display:none}
+.c1 .art{display:block;position:absolute;z-index:1;left:50%;top:7svh;width:min(74vw,650px);height:min(58svh,650px);transform:translateX(-50%);background:url('assets/card1.svg') center/contain no-repeat;will-change:transform}
 .shade{display:none}
 .copy{position:absolute;z-index:2;left:clamp(10px,5vw,72px);right:clamp(10px,5vw,72px);top:50%;max-width:760px;transform:translate3d(0,calc(-50% + var(--copy-y)),0);opacity:var(--copy-opacity);will-change:transform,opacity}
+.c1 .copy{top:auto;bottom:9svh;transform:translate3d(0,var(--copy-y),0)}
 .num{margin:0 0 14px;font-size:11px;font-weight:700;letter-spacing:.14em;color:#ffffff9a}
 .copy h2{margin:0;font-size:clamp(38px,5.8vw,82px);line-height:.98;letter-spacing:-.05em}
 .copy p:last-child{margin:18px 0 0;max-width:570px;color:#ffffffa8;font-size:clamp(14px,1.5vw,18px);line-height:1.5}
@@ -31,7 +33,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 .dot{width:22px;height:22px;border:0;background:transparent;padding:0;display:grid;place-items:center;cursor:pointer}
 .dot:before{content:"";width:5px;height:5px;border-radius:50%;background:#ffffff55;transition:transform .25s ease,background .25s ease}
 .dot.active:before{background:#fff;transform:scale(1.65)}
-@media(max-width:700px){.top span{display:none}.deck{width:100vw}.copy{left:12vw;right:9vw;top:50%}.copy h2{font-size:clamp(36px,10.4vw,54px)}.progress{left:var(--pad);transform:none;width:110px}.dots{right:var(--pad)}}
+@media(max-width:700px){.top span{display:none}.deck{width:100vw}.c1 .art{top:8svh;width:92vw;height:50svh}.copy{left:12vw;right:9vw;top:50%}.c1 .copy{top:auto;bottom:12svh}.copy h2{font-size:clamp(36px,10.4vw,54px)}.progress{left:var(--pad);transform:none;width:110px}.dots{right:var(--pad)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{filter:none!important}}
 </style>
 </head>
@@ -40,7 +42,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 <section class="story" id="story">
   <div class="stage" id="stage">
     <div class="deck" id="deck">
-      <article class="card c1"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">01 · BEGIN</p><h2>첫 문장은<br>천천히 등장합니다.</h2><p>텍스트가 화면 위에 떠오르듯 자연스럽게 이어집니다.</p></div></article>
+      <article class="card c1"><div class="art" role="img" aria-label="2026년 신소재의 밤"></div><div class="shade"></div><div class="copy"><p class="num">01 · BEGIN</p><h2>첫 문장은<br>천천히 등장합니다.</h2><p>텍스트가 화면 위에 떠오르듯 자연스럽게 이어집니다.</p></div></article>
       <article class="card c2"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">02 · FLOW</p><h2>스크롤은<br>움직임의 타임라인.</h2><p>아래로 스크롤할수록 현재 텍스트는 위로 흐르고 다음 텍스트가 아래에서 떠오릅니다.</p></div></article>
       <article class="card c3"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">03 · FOCUS</p><h2>한 장씩<br>시선이 머뭅니다.</h2><p>색상 배경과 경계를 없애 문구 자체에 시선이 머물도록 구성했습니다.</p></div></article>
       <article class="card c4"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">04 · DEPTH</p><h2>미세한 움직임으로<br>깊이를 만듭니다.</h2><p>텍스트의 이동과 투명도 변화만으로 가벼운 부유감을 표현합니다.</p></div></article>
