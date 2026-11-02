@@ -21,7 +21,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 .story{position:relative;height:600svh}
 .stage{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;place-items:center;perspective:1200px}
 .deck{position:relative;width:min(1180px,84vw);height:min(74svh,760px)}
-.card{--x:100vw;--scale:.94;--opacity:0;--blur:0px;position:absolute;inset:0;border-radius:clamp(26px,3.4vw,48px);overflow:hidden;background:#141416;isolation:isolate;transform:translate3d(var(--x),0,0) scale(var(--scale));opacity:var(--opacity);filter:blur(var(--blur));box-shadow:0 36px 100px #0007;will-change:transform,opacity,filter;pointer-events:none}
+.card{--y:100vh;--scale:.94;--opacity:0;--blur:0px;position:absolute;inset:0;border-radius:clamp(26px,3.4vw,48px);overflow:hidden;background:#141416;isolation:isolate;transform:translate3d(0,var(--y),0) scale(var(--scale));opacity:var(--opacity);filter:blur(var(--blur));box-shadow:0 36px 100px #0007;will-change:transform,opacity,filter;pointer-events:none}
 .art{position:absolute;inset:0;transform:scale(1.035);will-change:transform}
 .c1 .art{background:radial-gradient(circle at 65% 35%,#8ca0ff 0 6%,#5265d5 15%,#20264d 35%,#090a0e 70%)}
 .c2 .art{background:radial-gradient(circle at 30% 40%,#5de7ff 0 5%,#1f7899 18%,transparent 38%),linear-gradient(145deg,#07111d,#0a3556 52%,#03070b)}
@@ -45,12 +45,12 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 </head>
 <body>
 <div class="top"><b>MOMENTUM</b><span class="muted">SCROLL TO EXPLORE</span></div>
-<section class="hero"><p class="muted">SCROLL-DRIVEN STORY</p><h1>문장을 넘기듯,<br>이미지를 넘기다.</h1><p>세로 스크롤을 가로 이동으로 변환해 카드가 자연스럽게 좌우로 이어지는 처음 방식입니다.</p><div class="cue"></div></section>
+<section class="hero"><p class="muted">SCROLL-DRIVEN STORY</p><h1>문장을 넘기듯,<br>이미지를 넘기다.</h1><p>세로 스크롤의 방향에 맞춰 다음 카드가 아래에서 위로 자연스럽게 이어집니다.</p><div class="cue"></div></section>
 <section class="story" id="story">
   <div class="stage" id="stage">
     <div class="deck" id="deck">
       <article class="card c1"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">01 · BEGIN</p><h2>첫 문장은<br>천천히 등장합니다.</h2><p>카드가 중앙에 가까워질수록 선명해지고 커집니다.</p></div></article>
-      <article class="card c2"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">02 · FLOW</p><h2>스크롤은<br>움직임의 타임라인.</h2><p>아래로 스크롤할수록 카드가 왼쪽으로 미끄러지며 다음 장이 오른쪽에서 들어옵니다.</p></div></article>
+      <article class="card c2"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">02 · FLOW</p><h2>스크롤은<br>움직임의 타임라인.</h2><p>아래로 스크롤할수록 현재 카드는 위로 빠지고 다음 장이 아래에서 올라옵니다.</p></div></article>
       <article class="card c3"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">03 · FOCUS</p><h2>한 장씩<br>시선이 머뭅니다.</h2><p>한 순간에 하나의 메시지에 집중하도록 큰 카드와 넓은 여백을 사용합니다.</p></div></article>
       <article class="card c4"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">04 · DEPTH</p><h2>미세한 변화로<br>깊이를 만듭니다.</h2><p>scale과 opacity의 변화로 과하지 않은 입체감을 줍니다.</p></div></article>
       <article class="card c5"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">05 · END</p><h2>마지막 카드 뒤에는<br>다음 이야기가 이어집니다.</h2><p>이 구조에 실제 문구 이미지 카드만 교체해서 사용할 수 있습니다.</p></div></article>
@@ -59,7 +59,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
     <div class="dots" id="dots"></div>
   </div>
 </section>
-<section class="end"><p class="muted">READY TO EXTEND</p><h2>이제 콘텐츠만<br>바꾸면 됩니다.</h2><p>이미지와 문구, 카드 수만 바꿔도 같은 가로 스크롤 구조를 그대로 사용할 수 있습니다.</p></section>
+<section class="end"><p class="muted">READY TO EXTEND</p><h2>이제 콘텐츠만<br>바꾸면 됩니다.</h2><p>이미지와 문구, 카드 수만 바꿔도 같은 세로 전환 구조를 그대로 사용할 수 있습니다.</p></section>
 <script>
 (()=>{
   const story=document.querySelector('#story');
@@ -106,7 +106,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
     const next=Math.min(base+1,maxIndex);
 
     cards.forEach((card,i)=>{
-      let x=110;
+      let y=110;
       let scale=.94;
       let opacity=0;
       let blur=0;
@@ -115,7 +115,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
       let z=0;
 
       if(i<base){
-        x=-22;
+        y=-22;
         scale=.94;
         opacity=0;
         blur=reduce?0:2;
@@ -124,7 +124,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 
       if(i===base){
         const t=ease(local);
-        x=-22*t;
+        y=-22*t;
         scale=1-.055*t;
         opacity=1-t;
         blur=reduce?0:1.5*t;
@@ -135,7 +135,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 
       if(i===next && next!==base){
         const t=ease(local);
-        x=110*(1-t);
+        y=110*(1-t);
         scale=.94+.06*t;
         opacity=clamp(t*1.18);
         blur=reduce?0:2.2*(1-t);
@@ -145,10 +145,10 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
       }
 
       if(base===maxIndex && i===maxIndex){
-        x=0;scale=1;opacity=1;blur=0;copyY=0;copyOpacity=1;z=4;
+        y=0;scale=1;opacity=1;blur=0;copyY=0;copyOpacity=1;z=4;
       }
 
-      card.style.setProperty('--x',`${x}vw`);
+      card.style.setProperty('--y',`${y}vh`);
       card.style.setProperty('--scale',scale.toFixed(4));
       card.style.setProperty('--opacity',opacity.toFixed(4));
       card.style.setProperty('--blur',`${blur.toFixed(2)}px`);
@@ -183,8 +183,8 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
   addEventListener('scroll',updateTarget,{passive:true});
   addEventListener('resize',measure);
   addEventListener('keydown',e=>{
-    if(e.key==='ArrowRight')go(Math.min(cards.length-1,active+1));
-    if(e.key==='ArrowLeft')go(Math.max(0,active-1));
+    if(e.key==='ArrowDown')go(Math.min(cards.length-1,active+1));
+    if(e.key==='ArrowUp')go(Math.max(0,active-1));
   });
 
   measure();
