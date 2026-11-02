@@ -41,6 +41,7 @@ jobs:
           echo "1f92157f90d83d09d128d663d5de813fbead9403658826ad37123f526ccca4ee  _site/assets/card1.complete.b64" | sha256sum -c -
           base64 --decode _site/assets/card1.complete.b64 > _site/assets/card1.jpg
           echo "f733b35d2d38f1f23fd00e2ca8d07f7ad1b9380887ac77f5b0e38d748cba7048  _site/assets/card1.jpg" | sha256sum -c -
+          sed -i 's#</style>#.c1 .copy{display:none!important}</style>#' _site/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
