@@ -24,8 +24,9 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 .shade{display:none}
 .copy{position:absolute;z-index:2;left:clamp(10px,5vw,72px);right:clamp(10px,5vw,72px);top:50%;max-width:760px;transform:translate3d(0,calc(-50% + var(--copy-y)),0);opacity:var(--copy-opacity);will-change:transform,opacity;text-align:left}
 .c1 .copy{display:none}
-.c2 .copy{max-width:900px}
-.c2 .copy h2{font-size:clamp(44px,6.6vw,92px);line-height:1.02;letter-spacing:-.055em;text-align:left}
+.c2 .copy{left:clamp(28px,7vw,96px);right:clamp(24px,7vw,96px);max-width:1000px;text-align:left}
+.c2 .copy h2{font-size:clamp(44px,6.6vw,92px);line-height:1.04;letter-spacing:-.055em;text-align:left;font-weight:750}
+.c2 .copy h2 span{display:block;white-space:nowrap}
 .num{margin:0 0 14px;font-size:11px;font-weight:700;letter-spacing:.14em;color:#ffffff9a}
 .copy h2{margin:0;font-size:clamp(38px,5.8vw,82px);line-height:.98;letter-spacing:-.05em}
 .copy p:last-child{margin:18px 0 0;max-width:570px;color:#ffffffa8;font-size:clamp(14px,1.5vw,18px);line-height:1.5}
@@ -35,7 +36,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 .dot{width:22px;height:22px;border:0;background:transparent;padding:0;display:grid;place-items:center;cursor:pointer}
 .dot:before{content:"";width:5px;height:5px;border-radius:50%;background:#ffffff55;transition:transform .25s ease,background .25s ease}
 .dot.active:before{background:#fff;transform:scale(1.65)}
-@media(max-width:700px){.top span{display:none}.deck{width:100vw}.c1 .art{top:49%;width:min(96vw,78svh);height:min(96vw,78svh)}.copy{left:9vw;right:7vw;top:50%}.c2 .copy h2{font-size:clamp(42px,11vw,58px);line-height:1.04}.copy h2{font-size:clamp(36px,10.4vw,54px)}.progress{left:var(--pad);transform:none;width:110px}.dots{right:var(--pad)}}
+@media(max-width:700px){.top span{display:none}.deck{width:100vw}.c1 .art{top:49%;width:min(96vw,78svh);height:min(96vw,78svh)}.copy{left:9vw;right:7vw;top:50%}.c2 .copy{left:7vw;right:5vw}.c2 .copy h2{font-size:clamp(30px,8.2vw,54px);line-height:1.1;letter-spacing:-.045em}.copy h2{font-size:clamp(36px,10.4vw,54px)}.progress{left:var(--pad);transform:none;width:110px}.dots{right:var(--pad)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{filter:none!important}}
 </style>
 </head>
@@ -45,7 +46,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
   <div class="stage" id="stage">
     <div class="deck" id="deck">
       <article class="card c1"><div class="art" role="img" aria-label="2026년 신소재의 밤"></div><div class="shade"></div><div class="copy"><p class="num">01 · BEGIN</p><h2>첫 문장은<br>천천히 등장합니다.</h2><p>텍스트가 화면 위에 떠오르듯 자연스럽게 이어집니다.</p></div></article>
-      <article class="card c2"><div class="art"></div><div class="shade"></div><div class="copy"><h2>2026년<br>신소재의 밤에 오신<br>여러분을 환영합니다.</h2></div></article>
+      <article class="card c2"><div class="art"></div><div class="shade"></div><div class="copy"><h2><span>2026년</span><span>신소재의 밤에 오신</span><span>여러분을 환영합니다.</span></h2></div></article>
       <article class="card c3"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">03 · FOCUS</p><h2>한 장씩<br>시선이 머뭅니다.</h2><p>색상 배경과 경계를 없애 문구 자체에 시선이 머물도록 구성했습니다.</p></div></article>
       <article class="card c4"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">04 · DEPTH</p><h2>미세한 움직임으로<br>깊이를 만듭니다.</h2><p>텍스트의 이동과 투명도 변화만으로 가벼운 부유감을 표현합니다.</p></div></article>
       <article class="card c5"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">05 · END</p><h2>마지막 장면 뒤에도<br>흐름은 이어집니다.</h2><p>실제 이미지나 문구를 추가해도 같은 방식으로 자연스럽게 연결할 수 있습니다.</p></div></article>
@@ -103,9 +104,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
     return clamp(-top/travel);
   }
 
-  function updateTarget(){
-    targetProgress=storyProgress();
-  }
+  function updateTarget(){targetProgress=storyProgress()}
 
   function paint(p){
     const maxIndex=cards.length-1;
@@ -115,91 +114,20 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
     const next=Math.min(base+1,maxIndex);
 
     cards.forEach((card,i)=>{
-      let y=105;
-      let scale=.985;
-      let opacity=0;
-      let blur=0;
-      let copyY=42;
-      let copyOpacity=0;
-      let z=0;
-
-      if(i<base){
-        y=-18;
-        scale=.99;
-        opacity=0;
-        blur=reduce?0:1.5;
-        copyY=-48;
-        z=1;
-      }
-
-      if(i===base){
-        const t=ease(local);
-        y=-18*t;
-        scale=1-.01*t;
-        opacity=1-t;
-        blur=reduce?0:1.1*t;
-        copyY=-48*t;
-        copyOpacity=1-t*.92;
-        z=3;
-      }
-
-      if(i===next && next!==base){
-        const t=ease(local);
-        y=105*(1-t);
-        scale=.985+.015*t;
-        opacity=clamp(t*1.24);
-        blur=reduce?0:1.8*(1-t);
-        copyY=42*(1-t);
-        copyOpacity=clamp((t-.05)/.95);
-        z=4;
-      }
-
-      if(base===maxIndex && i===maxIndex){
-        y=0;scale=1;opacity=1;blur=0;copyY=0;copyOpacity=1;z=4;
-      }
-
-      card.style.setProperty('--y',`${y}vh`);
-      card.style.setProperty('--scale',scale.toFixed(4));
-      card.style.setProperty('--opacity',opacity.toFixed(4));
-      card.style.setProperty('--blur',`${blur.toFixed(2)}px`);
-      card.style.setProperty('--copy-y',`${copyY.toFixed(2)}px`);
-      card.style.setProperty('--copy-opacity',copyOpacity.toFixed(4));
-      card.style.zIndex=z;
+      let y=105,scale=.985,opacity=0,blur=0,copyY=42,copyOpacity=0,z=0;
+      if(i<base){y=-18;scale=.99;opacity=0;blur=reduce?0:1.5;copyY=-48;z=1}
+      if(i===base){const t=ease(local);y=-18*t;scale=1-.01*t;opacity=1-t;blur=reduce?0:1.1*t;copyY=-48*t;copyOpacity=1-t*.92;z=3}
+      if(i===next&&next!==base){const t=ease(local);y=105*(1-t);scale=.985+.015*t;opacity=clamp(t*1.24);blur=reduce?0:1.8*(1-t);copyY=42*(1-t);copyOpacity=clamp((t-.05)/.95);z=4}
+      if(base===maxIndex&&i===maxIndex){y=0;scale=1;opacity=1;blur=0;copyY=0;copyOpacity=1;z=4}
+      card.style.setProperty('--y',`${y}vh`);card.style.setProperty('--scale',scale.toFixed(4));card.style.setProperty('--opacity',opacity.toFixed(4));card.style.setProperty('--blur',`${blur.toFixed(2)}px`);card.style.setProperty('--copy-y',`${copyY.toFixed(2)}px`);card.style.setProperty('--copy-opacity',copyOpacity.toFixed(4));card.style.zIndex=z;
     });
-
-    const nearest=Math.round(timeline);
-    active=clamp(nearest,0,maxIndex);
-    dotList.forEach((d,i)=>d.classList.toggle('active',i===active));
-    bar.style.transform=`scaleX(${p})`;
+    active=clamp(Math.round(timeline),0,maxIndex);dotList.forEach((d,i)=>d.classList.toggle('active',i===active));bar.style.transform=`scaleX(${p})`;
   }
 
-  function render(){
-    if(reduce){
-      smoothProgress=targetProgress;
-    }else{
-      smoothProgress+=(targetProgress-smoothProgress)*.115;
-      if(Math.abs(targetProgress-smoothProgress)<.00015)smoothProgress=targetProgress;
-    }
-    paint(smoothProgress);
-    requestAnimationFrame(render);
-  }
-
-  function go(i){
-    const p=i/Math.max(1,cards.length-1);
-    const storyTop=scrollY+story.getBoundingClientRect().top;
-    scrollTo({top:storyTop+p*travel,behavior:reduce?'auto':'smooth'});
-  }
-
-  addEventListener('scroll',updateTarget,{passive:true});
-  addEventListener('resize',measure);
-  addEventListener('keydown',e=>{
-    if(e.key==='ArrowDown')go(Math.min(cards.length-1,active+1));
-    if(e.key==='ArrowUp')go(Math.max(0,active-1));
-  });
-
-  measure();
-  paint(0);
-  render();
+  function render(){if(reduce){smoothProgress=targetProgress}else{smoothProgress+=(targetProgress-smoothProgress)*.115;if(Math.abs(targetProgress-smoothProgress)<.00015)smoothProgress=targetProgress}paint(smoothProgress);requestAnimationFrame(render)}
+  function go(i){const p=i/Math.max(1,cards.length-1);const storyTop=scrollY+story.getBoundingClientRect().top;scrollTo({top:storyTop+p*travel,behavior:reduce?'auto':'smooth'})}
+  addEventListener('scroll',updateTarget,{passive:true});addEventListener('resize',measure);addEventListener('keydown',e=>{if(e.key==='ArrowDown')go(Math.min(cards.length-1,active+1));if(e.key==='ArrowUp')go(Math.max(0,active-1))});
+  measure();paint(0);render();
 })();
 </script>
 </body>
