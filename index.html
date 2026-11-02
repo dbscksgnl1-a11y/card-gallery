@@ -20,7 +20,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 .deck{position:relative;width:min(1180px,92vw);height:100svh}
 .card{--y:100vh;--scale:1;--opacity:0;--blur:0px;--copy-y:0px;--copy-opacity:1;position:absolute;inset:0;background:var(--bg);transform:translate3d(0,var(--y),0) scale(var(--scale));opacity:var(--opacity);filter:blur(var(--blur));will-change:transform,opacity,filter;pointer-events:none}
 .art{display:none}
-.c1 .art{display:block;position:absolute;z-index:1;left:50%;top:7svh;width:min(74vw,650px);height:min(58svh,650px);transform:translateX(-50%);background:url('assets/card1.svg') center/contain no-repeat;will-change:transform}
+.c1 .art{display:block;position:absolute;z-index:1;left:50%;top:7svh;width:min(74vw,650px);height:min(58svh,650px);transform:translateX(-50%);background:#000 center/contain no-repeat;will-change:transform}
 .shade{display:none}
 .copy{position:absolute;z-index:2;left:clamp(10px,5vw,72px);right:clamp(10px,5vw,72px);top:50%;max-width:760px;transform:translate3d(0,calc(-50% + var(--copy-y)),0);opacity:var(--copy-opacity);will-change:transform,opacity}
 .c1 .copy{top:auto;bottom:9svh;transform:translate3d(0,var(--copy-y),0)}
@@ -57,6 +57,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 (()=>{
   const story=document.querySelector('#story');
   const cards=[...document.querySelectorAll('.card')];
+  const artwork=document.querySelector('.c1 .art');
   const bar=document.querySelector('#bar');
   const dots=document.querySelector('#dots');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -66,6 +67,19 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
   let targetProgress=0;
   let smoothProgress=0;
   let travel=1;
+
+  Promise.all([1,2,3,4,5,6].map(i=>
+    fetch(`assets/card1.b64.${i}`,{cache:'no-store'}).then(r=>{
+      if(!r.ok)throw new Error(`artwork part ${i}: ${r.status}`);
+      return r.text();
+    })
+  )).then(parts=>{
+    const data=parts.join('').replace(/\s/g,'');
+    artwork.style.backgroundImage=`url("data:image/jpeg;base64,${data}")`;
+  }).catch(err=>{
+    console.error('Artwork load failed',err);
+    artwork.style.backgroundImage='none';
+  });
 
   cards.forEach((_,i)=>{
     const d=document.createElement('button');
