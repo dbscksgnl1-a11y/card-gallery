@@ -12,12 +12,9 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Noto Sans KR",sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 .top{position:fixed;z-index:30;left:0;right:0;top:0;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad);font-size:11px;letter-spacing:.14em;background:linear-gradient(#08080add,transparent);pointer-events:none}
 .muted{color:var(--muted)}
-.hero,.end{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:12vh var(--pad);max-width:1300px;margin:auto}
-.hero h1,.end h2{margin:0;max-width:980px;font-size:clamp(54px,9vw,132px);line-height:.93;letter-spacing:-.06em}
-.hero p,.end p{max-width:600px;margin:34px 0 0;color:var(--muted);font-size:clamp(16px,1.4vw,20px);line-height:1.55}
-.cue{margin-top:48px;width:28px;height:44px;border:1px solid #ffffff30;border-radius:99px;position:relative}
-.cue:after{content:"";position:absolute;width:3px;height:8px;background:#fff;border-radius:99px;left:12px;top:9px;animation:cue 1.8s ease-in-out infinite}
-@keyframes cue{50%{transform:translateY(14px);opacity:.45}}
+.end{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:12vh var(--pad);max-width:1300px;margin:auto}
+.end h2{margin:0;max-width:980px;font-size:clamp(54px,9vw,132px);line-height:.93;letter-spacing:-.06em}
+.end p{max-width:600px;margin:34px 0 0;color:var(--muted);font-size:clamp(16px,1.4vw,20px);line-height:1.55}
 .story{position:relative;height:600svh}
 .stage{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;place-items:center;perspective:1200px}
 .deck{position:relative;width:min(1180px,84vw);height:min(74svh,760px)}
@@ -39,13 +36,12 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 .dot{width:22px;height:22px;border:0;background:transparent;padding:0;display:grid;place-items:center;cursor:pointer}
 .dot:before{content:"";width:5px;height:5px;border-radius:50%;background:#ffffff55;transition:transform .25s ease,background .25s ease}
 .dot.active:before{background:#fff;transform:scale(1.65)}
-@media(max-width:700px){.top span{display:none}.hero{padding-top:17vh}.deck{width:88vw;height:68svh}.copy h2{font-size:clamp(34px,10.6vw,52px)}.progress{left:var(--pad);transform:none;width:110px}.dots{right:var(--pad)}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cue:after{animation:none}.card{filter:none!important}}
+@media(max-width:700px){.top span{display:none}.deck{width:88vw;height:68svh}.copy h2{font-size:clamp(34px,10.6vw,52px)}.progress{left:var(--pad);transform:none;width:110px}.dots{right:var(--pad)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{filter:none!important}}
 </style>
 </head>
 <body>
 <div class="top"><b>MOMENTUM</b><span class="muted">SCROLL TO EXPLORE</span></div>
-<section class="hero"><p class="muted">SCROLL-DRIVEN STORY</p><h1>문장을 넘기듯,<br>이미지를 넘기다.</h1><p>세로 스크롤의 방향에 맞춰 다음 카드가 아래에서 위로 자연스럽게 이어집니다.</p><div class="cue"></div></section>
 <section class="story" id="story">
   <div class="stage" id="stage">
     <div class="deck" id="deck">
