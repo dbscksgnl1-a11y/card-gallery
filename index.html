@@ -97,7 +97,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
     artwork.style.backgroundImage='none';
   });
 
-  fetch('assets/card2.webp.b64',{cache:'no-store'})
+  fetch('assets/card2.small.b64',{cache:'no-store'})
     .then(r=>{if(!r.ok)throw new Error(`artwork 2: ${r.status}`);return r.text()})
     .then(data=>{artwork2.style.backgroundImage=`url("data:image/webp;base64,${data.replace(/\s/g,'')}")`})
     .catch(err=>{console.error('Artwork 2 load failed',err);artwork2.style.backgroundImage='none'});
