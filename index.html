@@ -33,6 +33,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 .c3 .copy h2{font-size:clamp(58px,9vw,108px);line-height:1.05;letter-spacing:-.06em;font-weight:760;margin:0}
 .c3 .copy .body-space{display:flex;flex:1;min-height:0;align-items:stretch;gap:clamp(18px,4vw,60px);margin-top:clamp(16px,3svh,34px)}
 .c3 .copy .lecture-art{display:block;flex:0 0 min(48%,520px);width:min(48%,520px);height:100%;max-height:100%;object-fit:contain;object-position:top left}
+.c3 .copy .lecture-caption{display:none}
 .c3 .copy .body-placeholder{flex:1;min-width:0}
 .num{margin:0 0 14px;font-size:11px;font-weight:700;letter-spacing:.14em;color:#ffffff9a}
 .copy h2{margin:0;font-size:clamp(38px,5.8vw,82px);line-height:.98;letter-spacing:-.05em}
@@ -55,6 +56,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
   .c3 .copy h2{font-size:clamp(60px,16vw,82px)}
   .c3 .copy .body-space{flex-direction:column;align-items:flex-start;gap:0;min-height:0;margin-top:clamp(16px,3svh,28px)}
   .c3 .copy .lecture-art{flex:0 0 auto;width:min(76vw,45svh);height:auto;max-height:min(50svh,440px);object-fit:contain;object-position:top left}
+  .c3 .copy .lecture-caption{display:block;align-self:flex-start;margin:12px 0 0;font-size:clamp(14px,3.8vw,18px);line-height:1.5;font-weight:400;letter-spacing:-.015em;color:var(--fg)}
   .c3 .copy .body-placeholder{flex:1;min-height:12svh}
   .copy h2{font-size:clamp(36px,10.4vw,54px)}
   .progress{left:var(--pad);transform:none;width:110px}
@@ -70,7 +72,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
     <div class="deck" id="deck">
       <article class="card c1"><div class="art" role="img" aria-label="2026년 신소재의 밤"></div><div class="shade"></div><div class="copy"><p class="num">01 · BEGIN</p><h2>첫 문장은<br>천천히 등장합니다.</h2><p>텍스트가 화면 위에 떠오르듯 자연스럽게 이어집니다.</p></div></article>
       <article class="card c2"><div class="art"><img src="assets/card2.webp" alt="축하 이모지 이미지"></div><div class="shade"></div><div class="copy"><h2><span>2026년</span><span>신소재의 밤에 오신</span><span>여러분을 환영합니다.</span></h2></div></article>
-      <article class="card c3"><div class="art"></div><div class="shade"></div><div class="copy"><h2>1부</h2><div class="body-space"><img class="lecture-art" src="assets/card3-lecture.webp" alt="교수님이 발표 자료를 설명하는 강연 일러스트"><div class="body-placeholder" aria-hidden="true"></div></div></div></article>
+      <article class="card c3"><div class="art"></div><div class="shade"></div><div class="copy"><h2>1부</h2><div class="body-space"><img class="lecture-art" src="assets/card3-lecture.webp" alt="교수님이 발표 자료를 설명하는 강연 일러스트"><p class="lecture-caption">졸업생 및 교수님 강연</p><div class="body-placeholder" aria-hidden="true"></div></div></div></article>
       <article class="card c4"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">04 · DEPTH</p><h2>미세한 움직임으로<br>깊이를 만듭니다.</h2><p>텍스트의 이동과 투명도 변화만으로 가벼운 부유감을 표현합니다.</p></div></article>
       <article class="card c5"><div class="art"></div><div class="shade"></div><div class="copy"><p class="num">05 · END</p><h2>마지막 장면 뒤에도<br>흐름은 이어집니다.</h2><p>실제 이미지나 문구를 추가해도 같은 방식으로 자연스럽게 연결할 수 있습니다.</p></div></article>
     </div>
