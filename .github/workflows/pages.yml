@@ -55,13 +55,14 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Render rotating AirPods
+      - name: Render rotating products
         env:
           LIBGL_ALWAYS_SOFTWARE: '1'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y libegl1 libgl1-mesa-dri ffmpeg
           python -m pip install numpy Pillow moderngl scipy scikit-image
+          python tools/render_watch.py _site/assets
           python tools/render_airpods.py _site/assets
           rm -rf _site/tools
 
