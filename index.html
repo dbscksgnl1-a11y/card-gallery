@@ -191,16 +191,6 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
       {x:145,y:56,r:4,phase:1.4,speed:1.32},
       {x:372,y:118,r:4,phase:3.2,speed:.94}
     ];
-    // A handful of existing windows dim at staggered, irregular intervals.
-    const windows=[
-      {x:72,y:266,rx:6,ry:8,period:8.3,phase:1.1},
-      {x:86,y:288,rx:6,ry:8,period:10.7,phase:5.6},
-      {x:183,y:299,rx:6,ry:8,period:9.1,phase:3.1},
-      {x:222,y:301,rx:7,ry:8,period:12.3,phase:8.7},
-      {x:214,y:323,rx:6,ry:8,period:7.9,phase:5.2},
-      {x:144,y:297,rx:5,ry:6,period:11.5,phase:2.3},
-      {x:387,y:307,rx:4,ry:5,period:9.7,phase:7.1}
-    ];
     function crop(x,y,w,h,dx=0,dy=0){
       ctx.drawImage(image,x/420*image.width,y/420*image.height,
         w/420*image.width,h/420*image.height,x+dx,y+dy,w,h);
@@ -218,8 +208,8 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
       ctx.fillStyle='#000';
       ctx.fillRect(107,88,218,63);
       ctx.fillRect(63,148,301,76);
-      crop(108,91,214,58,Math.sin(t*.63)*.6,Math.sin(t*.91)*1.8);
-      crop(64,151,300,70,Math.sin(t*.55+1)*.5,Math.sin(t*.76+1.1)*2.2);
+      crop(108,91,214,58,Math.sin(t*.63)*1,Math.sin(t*.91)*3);
+      crop(64,153,300,68,Math.sin(t*.55+1)*.9,Math.sin(t*.76+1.1)*3.6);
 
       stars.forEach(s=>{
         const pulse=(Math.sin(t*s.speed+s.phase)+1)/2;
@@ -247,19 +237,6 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
       crop(30,42,72,82);
       ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
 
-      windows.forEach(w=>{
-        const phase=(t+w.phase)%w.period;
-        if(phase>1.5)return;
-        const envelope=Math.pow(Math.sin(Math.PI*phase/1.5),2);
-        const flutter=.54+.30*Math.sin(phase*19)+.16*Math.sin(phase*37);
-        ctx.save();ctx.translate(w.x,w.y);ctx.scale(w.rx,w.ry);
-        const dim=ctx.createRadialGradient(0,0,0,0,0,1);
-        const alpha=envelope*(.43+.47*flutter);
-        dim.addColorStop(0,`rgba(24,43,104,${alpha})`);
-        dim.addColorStop(.57,`rgba(24,43,104,${alpha*.9})`);
-        dim.addColorStop(1,'rgba(24,43,104,0)');
-        ctx.fillStyle=dim;ctx.fillRect(-1,-1,2,2);ctx.restore();
-      });
     }
     draw(performance.now(),true,true);
     artwork.appendChild(canvas);
