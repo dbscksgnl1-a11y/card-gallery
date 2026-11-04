@@ -133,9 +133,19 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
   const ease=t=>1-Math.pow(1-clamp(t),3);
+  // Every full card step uses the same 500 ms ease-in-out, in either direction.
+  // A mid-transition button press begins from the current visual position.
+  const CARD_TRANSITION_MS=500;
+  const easeInOut=t=>{
+    const x=clamp(t);
+    return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+  };
   let targetIndex=0;
-  let targetProgress=0;
-  let smoothProgress=0;
+  let visibleIndex=0;
+  let fromIndex=0;
+  let toIndex=0;
+  let startedAt=0;
+  let duration=0;
 
   Promise.all([1,2,3,4,5,6].map(i=>
     fetch(`assets/card1.b64.${i}`,{cache:'no-store'}).then(r=>{
@@ -179,26 +189,38 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
     cards.forEach((card,i)=>{
       let y=105,scale=.985,opacity=0,blur=0,copyY=42,copyOpacity=0,z=0;
       if(i<base){y=-18;scale=.99;opacity=0;blur=reduce?0:1.5;copyY=-48;z=1}
-      if(i===base){const t=ease(local);y=-18*t;scale=1-.01*t;opacity=1-t;blur=reduce?0:1.1*t;copyY=-48*t;copyOpacity=1-t*.92;z=3}
-      if(i===next&&next!==base){const t=ease(local);y=105*(1-t);scale=.985+.015*t;opacity=clamp(t*1.24);blur=reduce?0:1.8*(1-t);copyY=42*(1-t);copyOpacity=clamp((t-.05)/.95);z=4}
+      if(i===base){const t=local;y=-18*t;scale=1-.01*t;opacity=1-t;blur=reduce?0:1.1*t;copyY=-48*t;copyOpacity=1-t*.92;z=3}
+      if(i===next&&next!==base){const t=local;y=105*(1-t);scale=.985+.015*t;opacity=clamp(t*1.24);blur=reduce?0:1.8*(1-t);copyY=42*(1-t);copyOpacity=clamp((t-.05)/.95);z=4}
       if(base===maxIndex&&i===maxIndex){y=0;scale=1;opacity=1;blur=0;copyY=0;copyOpacity=1;z=4}
       card.style.setProperty('--y',`${y}vh`);card.style.setProperty('--scale',scale.toFixed(4));card.style.setProperty('--opacity',opacity.toFixed(4));card.style.setProperty('--blur',`${blur.toFixed(2)}px`);card.style.setProperty('--copy-y',`${copyY.toFixed(2)}px`);card.style.setProperty('--copy-opacity',copyOpacity.toFixed(4));card.style.zIndex=z;
     });
     dotList.forEach((d,i)=>d.classList.toggle('active',i===targetIndex));bar.style.transform=`scaleX(${(timeline+1)/cards.length})`;
   }
 
-  function render(){
-    if(reduce){smoothProgress=targetProgress}
-    else {
-      smoothProgress+=(targetProgress-smoothProgress)*.115;
-      if(Math.abs(targetProgress-smoothProgress)<.00015)smoothProgress=targetProgress;
-    }
-    paint(smoothProgress);
+  function positionAt(now){
+    if(reduce||fromIndex===toIndex||duration===0)return toIndex;
+    const elapsed=clamp((now-startedAt)/duration);
+    return fromIndex+(toIndex-fromIndex)*easeInOut(elapsed);
+  }
+  function render(now){
+    visibleIndex=positionAt(now);
+    if(now>=startedAt+duration)fromIndex=toIndex;
+    paint(visibleIndex/Math.max(1,cards.length-1));
     requestAnimationFrame(render);
   }
   function go(index){
-    targetIndex=Math.round(clamp(index,0,cards.length-1));
-    targetProgress=targetIndex/Math.max(1,cards.length-1);
+    const nextIndex=Math.round(clamp(index,0,cards.length-1));
+    if(nextIndex!==targetIndex){
+      const now=performance.now();
+      // Retarget from the actual displayed position, avoiding a visual jump
+      // when the user presses another navigation button mid-animation.
+      visibleIndex=positionAt(now);
+      fromIndex=visibleIndex;
+      toIndex=nextIndex;
+      startedAt=now;
+      duration=Math.max(140,CARD_TRANSITION_MS*Math.abs(toIndex-fromIndex));
+    }
+    targetIndex=nextIndex;
     prevBtn.disabled=targetIndex===0;
     nextBtn.disabled=targetIndex===cards.length-1;
     navCounter.textContent=`${String(targetIndex+1).padStart(2,'0')} / ${String(cards.length).padStart(2,'0')}`;
@@ -210,7 +232,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
     if(e.key==='ArrowRight'||e.key==='ArrowDown')go(targetIndex+1);
     if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(targetIndex-1);
   });
-  go(0);paint(0);render();
+  go(0);paint(0);requestAnimationFrame(render);
 })();
 </script>
 </body>
