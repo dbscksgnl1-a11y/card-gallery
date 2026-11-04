@@ -214,12 +214,12 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
       stars.forEach(s=>{
         const pulse=(Math.sin(t*s.speed+s.phase)+1)/2;
         ctx.fillStyle='#000';ctx.fillRect(s.x-s.r,s.y-s.r,s.r*2,s.r*2);
-        ctx.globalAlpha=.55+.45*pulse;
+        ctx.globalAlpha=.42+.58*pulse;
         crop(s.x-s.r,s.y-s.r,s.r*2,s.r*2);
         ctx.globalAlpha=1;
         ctx.globalCompositeOperation='screen';
         const glow=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r);
-        glow.addColorStop(0,`rgba(255,238,186,${.24*pulse})`);
+        glow.addColorStop(0,`rgba(255,238,186,${.32*pulse})`);
         glow.addColorStop(1,'rgba(255,225,155,0)');
         ctx.fillStyle=glow;ctx.fillRect(s.x-s.r,s.y-s.r,s.r*2,s.r*2);
         ctx.globalCompositeOperation='source-over';
