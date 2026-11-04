@@ -55,7 +55,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 .dot:before{content:"";width:5px;height:5px;border-radius:50%;background:#ffffff55;transition:transform .25s ease,background .25s ease}
 .dot.active:before{background:#fff;transform:scale(1.65)}
 .nav{position:absolute;z-index:25;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(460px,calc(100% - 32px));display:flex;align-items:center;justify-content:center;gap:12px}
-.nav-button{flex:1;min-width:0;min-height:52px;padding:12px 14px;border:1px solid #ffffff38;border-radius:16px;background:#212126e8;color:var(--fg);font:650 15px/1.3 inherit;cursor:pointer;touch-action:manipulation;transition:background .2s,border-color .2s,opacity .2s,transform .2s}
+.nav-button{flex:1;min-width:0;min-height:52px;padding:12px 14px;border:1px solid #ffffff38;border-radius:16px;background:#212126e8;color:var(--fg);font-family:inherit;font-size:15px;font-weight:650;line-height:1.3;cursor:pointer;touch-action:manipulation;transition:background .2s,border-color .2s,opacity .2s,transform .2s}
 .nav-button:not(:disabled):hover{background:#34343d;border-color:#ffffff70}
 .nav-button:not(:disabled):active{transform:scale(.97)}
 .nav-button:disabled{opacity:.28;cursor:default}
