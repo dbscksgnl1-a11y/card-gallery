@@ -55,10 +55,12 @@ for i in range(len(pr)-1):
         a=i*count+j;b=i*count+(j+1)%count;faces.extend([(a,b,b+count),(a,b+count,a+count)])
 mesh(verts,faces,SILICONE)
 # Dark acoustic membrane at the base of the hollow tip.
-verts=[origin+axis*.075];uv=[(.5,.5)];faces=[]
+# Place the acoustic membrane inside the tip opening, ahead of the solid housing.
+membrane_depth=.32
+verts=[origin+axis*membrane_depth];uv=[(.5,.5)];faces=[]
 for j in range(96):
     a=j*2*math.pi/96
-    verts.append(origin+axis*.075+.168*(u*math.cos(a)+v*math.sin(a)));uv.append((.5+.5*math.cos(a),.5+.5*math.sin(a)))
+    verts.append(origin+axis*membrane_depth+.205*(u*math.cos(a)+v*math.sin(a)));uv.append((.5+.5*math.cos(a),.5+.5*math.sin(a)))
 for j in range(96):faces.append((0,1+j,1+(j+1)%96))
 mesh(verts,faces,GRILLE,uv)
 
@@ -89,16 +91,18 @@ ellipse((.20,-1.219,.06),(.085,.012,.042),BLACK)
 
 
 allpoints=np.concatenate(geometry);frames=[]
+# Fixed centres prevent the earbuds sliding apart and together during each turn.
+separation=float(np.max(np.linalg.norm(allpoints[:,[0,2]],axis=1)))+.10
 indices=[int(x) for x in sys.argv[2:]] if len(sys.argv)>2 else range(180)
 for idx in indices:
     a=idx*2*math.pi/180
     rot=np.array([[math.cos(a),0,math.sin(a),0],[0,1,0,0],[-math.sin(a),0,math.cos(a),0],[0,0,0,1]],dtype='f4')
-    xmax=np.max(allpoints@rot[0,:3]);models=[]
+    models=[]
     for side in [-1,1]:
         mirror=np.diag([-side,1,1,1]).astype('f4')
-        trans=np.eye(4,dtype='f4');trans[0,3]=side*(.16+xmax)
+        trans=np.eye(4,dtype='f4');trans[0,3]=side*separation
         models.append(trans@mirror@rot)
     frame=renderer.render(models,[0,.65,9.0],2.5);frames.append(frame)
     if len(sys.argv)>2:frame.save(output/f'airpods-{idx:03d}.png')
     if idx%30==0:print('AirPods frame',idx,flush=True)
-if len(sys.argv)==2:encode(frames,output,'card7-airpods-3d-v2')
+if len(sys.argv)==2:encode(frames,output,'card7-airpods-3d-v3')

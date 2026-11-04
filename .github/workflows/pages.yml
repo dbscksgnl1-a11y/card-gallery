@@ -50,20 +50,17 @@ jobs:
 
           sed -i 's#</style>#.c1 .copy{display:none!important}</style>#' _site/index.html
 
-      - name: Set up renderer
+      - name: Set up artwork validation
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Render rotating products
-        env:
-          LIBGL_ALWAYS_SOFTWARE: '1'
+      # Ship the reviewed files from Git. Both branch-based Pages and this workflow
+      # now publish the same animations, without an expensive deployment-time render.
+      - name: Validate shipped animations
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y libegl1 libgl1-mesa-dri ffmpeg
-          python -m pip install numpy Pillow moderngl scipy scikit-image
-          python tools/render_watch.py _site/assets
-          python tools/render_airpods.py _site/assets
+          python -m pip install Pillow
+          python tools/validate_assets.py _site
           rm -rf _site/tools
 
       - name: Upload artifact

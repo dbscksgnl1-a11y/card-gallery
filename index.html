@@ -107,8 +107,8 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
       <article class="card c3"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 1</h2><div class="body-space"><img class="lecture-art" src="assets/card3-lecture.webp" alt="교수님이 발표 자료를 설명하는 강연 일러스트"><p class="lecture-caption">졸업생 및 교수님 강연</p><div class="body-placeholder" aria-hidden="true"></div></div></div></article>
       <article class="card c4"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 1 - Gift</h2><div class="body-space"><img class="prize-art" src="assets/card4-prize.webp" alt="기프티콘 상품 이미지"></div></div></article>
       <article class="card c5"><div class="art"></div><div class="shade"></div><div class="copy"><h2>2부</h2><p class="part-subtitle">뒷풀이 회식</p><div class="body-space"><img class="toast-art" src="assets/card5-toast.svg" alt="두 잔이 부딪히며 반짝이는 건배 애니메이션"></div></div></article>
-      <article class="card c6"><div class="art"></div><div class="shade"></div><div class="copy"><h2>2부 상품</h2><p class="part-subtitle">Apple Watch SE 3</p><div class="body-space"><img class="watch-art" src="assets/card6-watch-3d-v2.webp" width="800" height="800" decoding="async" alt="옆면과 뒷면까지 360도로 회전하는 애플워치 입체 이미지"></div></div></article>
-      <article class="card c7"><div class="art"></div><div class="shade"></div><div class="copy"><h2>2부 상품</h2><p class="part-subtitle">AirPods Pro 3</p><div class="body-space"><img class="airpods-art" src="assets/card7-airpods-3d-v2.webp" width="800" height="800" decoding="async" alt="옆면과 뒷면까지 360도로 회전하는 에어팟 프로 입체 이미지"></div></div></article>
+      <article class="card c6"><div class="art"></div><div class="shade"></div><div class="copy"><h2>2부 상품</h2><p class="part-subtitle">Apple Watch SE 3</p><div class="body-space"><img class="watch-art" src="assets/card6-watch-3d-v3.webp" data-poster="assets/card6-watch-3d-v3-preview.png" data-video="assets/card6-watch-3d-v3.mp4" width="800" height="800" decoding="async" alt="옆면과 뒷면까지 360도로 회전하는 애플워치 입체 이미지"></div></div></article>
+      <article class="card c7"><div class="art"></div><div class="shade"></div><div class="copy"><h2>2부 상품</h2><p class="part-subtitle">AirPods Pro 3</p><div class="body-space"><img class="airpods-art" src="assets/card7-airpods-3d-v3.webp" data-poster="assets/card7-airpods-3d-v3-preview.png" data-video="assets/card7-airpods-3d-v3.mp4" width="800" height="800" decoding="async" alt="옆면과 뒷면까지 360도로 회전하는 에어팟 프로 입체 이미지"></div></div></article>
     </div>
     <div class="progress"><span id="bar"></span></div>
     <div class="dots" id="dots"></div>
@@ -131,6 +131,32 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
   const nextBtn=document.querySelector('#nextBtn');
   const navCounter=document.querySelector('#navCounter');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Keep a moving fallback for WebP load/decode errors, including cached 404s.
+  document.querySelectorAll('img[data-video]').forEach(img=>{
+    if(reduce){img.src=img.dataset.poster;return;}
+    const recover=()=>{
+      if(!img.isConnected)return;
+      const video=document.createElement('video');
+      video.className=img.className;
+      video.width=800;video.height=800;
+      video.muted=true;video.autoplay=true;video.loop=true;video.playsInline=true;
+      video.poster=img.dataset.poster;video.src=img.dataset.video;
+      video.setAttribute('aria-label',img.alt);
+      // If autoplay is blocked, keep the poster visible and let the user play it.
+      video.addEventListener('error',()=>{
+        const poster=document.createElement('img');
+        poster.className=img.className;poster.alt=img.alt;poster.src=img.dataset.poster;
+        video.replaceWith(poster);
+      },{once:true});
+      img.replaceWith(video);
+      video.play().catch(()=>{
+        video.controls=true;
+        video.style.pointerEvents='auto';
+      });
+    };
+    img.addEventListener('error',recover,{once:true});
+    if(img.complete&&img.naturalWidth===0)recover();
+  });
   const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
   const ease=t=>1-Math.pow(1-clamp(t),3);
   // Every full card step uses the same 500 ms ease-in-out, in either direction.

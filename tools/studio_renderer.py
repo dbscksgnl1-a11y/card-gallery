@@ -31,7 +31,9 @@ vec3 aces(vec3 x){return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0,1);}
 void main(){
  vec3 n=normalize(N),v=normalize(eye-P);float nv=max(dot(n,v),0);
  bool isScreen=product==0&&texmode==1;bool isGrille=product==1&&texmode==1;bool soft=gloss<50;
- float m=metal>.7?.94:0.;float rough=soft?.63:(m>.5?.31:.16);
+ float m=metal>.7?.94:0.;
+ // Satin aluminium, glossy moulded plastic and matte silicone need distinct lobes.
+ float rough=soft?(product==0?.72:.54):(m>.5?.40:.20);
  if(texmode==2)rough=.095;if(isScreen)rough=.075;if(isGrille)rough=.78;
  float grain=noise(floor(Local*420.));rough+= (grain-.5)*(m>.5?.009:soft?.012:.003);
  vec3 albedo=pow(base,vec3(2.2));
@@ -41,7 +43,7 @@ void main(){
  if(isScreen){albedo=vec3(.002);f0=vec3(.035);}
  vec3 l=normalize(vec3(-3.8,6,5.5));float shade=shadowing(n,l);
  vec3 reflected=reflect(-v,n);vec3 F=fresnel(nv,f0);
- vec3 environment=(env(reflected,rough)*2.8+vec3(.075,.085,.10))*F*(1-rough*.42);
+ vec3 environment=(env(reflected,rough)*2.4+vec3(.075,.085,.10))*F*(1-rough*.42);
  if(soft)environment*=.22;if(isScreen)environment*=.28;
  vec3 c=albedo*(.26+.10*n.y)*(1-m)*(0.65+.35*shade);
  c+=light(n,v,l,albedo,f0,rough,m,vec3(3.5,3.45,3.35))*shade;
@@ -49,6 +51,10 @@ void main(){
  c+=light(n,v,normalize(vec3(1,4,-5)),albedo,f0,rough,m,vec3(2.0));
  c+=environment;
  if(soft){float sss=pow(max(dot(-n,l),0),3)*.06;c+=albedo*sss;}
+ // A thin clear coat gives the earbuds a soft studio highlight without tinting the plastic.
+ if(product==1&&!soft&&texmode==0&&m<.5){
+   c+=env(reflected,.10)*fresnel(nv,vec3(.035))*.30;
+ }
  if(isScreen)c+=pow(texture(face,UV).rgb,vec3(2.2))*.9;
  if(isGrille){vec2 q=fract(UV*vec2(38,56));float wire=smoothstep(.29,.43,length(q-.5));c=vec3(.003+.012*wire)*(.75+.5*max(dot(n,l),0))*shade+environment*.01;}
  color=vec4(pow(aces(c),vec3(1/2.2)),1);

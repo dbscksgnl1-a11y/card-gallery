@@ -111,4 +111,4 @@ for idx in indices:
     frame=renderer.render([lean@model],[0,1.,9.],2.75);frames.append(frame)
     if len(sys.argv)>2:frame.save(output/f'watch-{idx:03d}.png')
     if idx%30==0:print('Watch frame',idx,flush=True)
-if len(sys.argv)==2:encode(frames,output,'card6-watch-3d-v2')
+if len(sys.argv)==2:encode(frames,output,'card6-watch-3d-v3')
