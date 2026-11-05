@@ -1,7 +1,10 @@
 /* The glass housing stays fixed; only the contained balls are simulated. */
 (()=>{
-  const canvas=document.querySelector('.lotto-canvas');
-  const fallback=document.querySelector('.lotto-poster');
+  // Each Lotto page has its own ball simulation and canvas.
+  const artworks=[...document.querySelectorAll('.lotto-art')];
+  const draws=artworks.map(artwork=>{
+  const canvas=artwork.querySelector('.lotto-canvas');
+  const fallback=artwork.querySelector('.lotto-poster');
   if(!canvas||!fallback)return;
   const ctx=canvas.getContext('2d');
   if(!ctx)return;
@@ -89,7 +92,7 @@
     sheen.addColorStop(0,'#eaf1ff13');sheen.addColorStop(.65,'#eaf1ff00');sheen.addColorStop(1,'#b5c9ff12');
     ctx.fillStyle=sheen;ctx.fillRect(250,150,760,750);ctx.restore();
   }
-  window.drawLottoArtwork=(now,visible)=>{
+  const drawLotto=(now,visible)=>{
     if(!ready||!visible||document.hidden){last=0;return;}
     if(motion.matches){last=0;return;}
     const dt=last?Math.min((now-last)/1000,.05):0;last=now;
@@ -104,4 +107,11 @@
     if(motion.matches)balls.forEach((b,i)=>Object.assign(b,initial[i]));
     last=0;accumulator=0;if(ready)draw();
   });
+  return drawLotto;
+  });
+  window.drawLottoArtwork=(now,visibleIndex)=>{
+    draws.forEach((draw,i)=>{
+      if(draw)draw(now,Math.abs(visibleIndex-(i+4))<.95);
+    });
+  };
 })();
