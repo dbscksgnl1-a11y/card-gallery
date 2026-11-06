@@ -104,10 +104,10 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 }
 @media(prefers-reduced-motion:reduce){.card{filter:none!important}.nav-button,.lotto-link{transition:none!important}}
 
-/* Card 5 reserves a separate row for the link; the artwork scales into the remaining space. */
+/* One Lotto scene reserves question and Link rows across all three steps. */
 .c5 .copy,.c6 .copy{top:clamp(64px,14svh,140px);bottom:calc(132px + env(safe-area-inset-bottom));min-width:0}
 .c5 .copy h2,.c6 .copy h2{flex:0 0 auto;font-size:clamp(24px,8vw,54px);white-space:nowrap}
-.c5 .copy .body-space,.c6 .copy .body-space{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;justify-content:stretch;justify-items:center;align-items:center;gap:clamp(8px,1.6svh,16px);margin-top:clamp(10px,2svh,24px);min-width:0;min-height:0;width:100%}
+.c5 .copy .body-space,.c6 .copy .body-space{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto auto;justify-content:stretch;justify-items:center;align-items:center;gap:clamp(8px,1.6svh,16px);margin-top:clamp(10px,2svh,24px);min-width:0;min-height:0;width:100%}
 .c5 .lotto-art,.c6 .lotto-art{position:relative;align-self:stretch;justify-self:center;width:100%;max-width:540px;min-height:0;overflow:hidden}
 .c5 .lotto-art canvas,.c5 .lotto-art img,.c6 .lotto-art canvas,.c6 .lotto-art img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;mix-blend-mode:lighten}
 .c5 .lotto-art [hidden],.c6 .lotto-art [hidden]{display:none}
@@ -119,8 +119,9 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
  .c5 .copy .lotto-link{height:44px;min-height:44px;padding:8px 20px;font-size:16px}
 }
 
-/* One physical Lotto scene serves steps 5 and 6; reserve the Link row in both. */
-.c6[hidden]{display:none}
+/* Steps 5, 6 and 7 share one fixed title and continuous ball simulation. */
+.card[data-lotto-step][hidden]{display:none}
+.c5 .copy .lotto-question{width:100%;text-align:center;opacity:var(--lotto-question-opacity,0);transform:translate3d(0,var(--lotto-question-rise,40px),0);visibility:hidden;will-change:transform,opacity}
 .c5 .copy .lotto-link{opacity:var(--lotto-link-opacity,0);transform:translate3d(0,var(--lotto-link-rise,40px),0);visibility:hidden;pointer-events:none;transition:background .2s,box-shadow .2s;will-change:transform,opacity}
 .c5 .copy .lotto-link:active{transform:translate3d(0,var(--lotto-link-rise,40px),0) scale(.97)}
 </style>
@@ -134,7 +135,8 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
       <article class="card c2"><div class="art"><picture><source media="(prefers-reduced-motion: reduce)" srcset="assets/card2.webp"><img src="assets/card2-party-animated-v1.svg" width="960" height="960" alt="파티 블로어가 펴졌다 말리고 컨페티가 떨어지는 축하 이모지"></picture></div><div class="shade"></div><div class="copy"><h2><span>2026년</span><span>신소재의 밤에 오신</span><span>여러분을 환영합니다.</span></h2></div></article>
       <article class="card c3"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 1</h2><div class="body-space"><img class="lecture-art" src="assets/card3-lecture.webp" alt="교수님이 발표 자료를 설명하는 강연 일러스트"><p class="lecture-caption">졸업생 및 교수님 강연</p><div class="body-placeholder" aria-hidden="true"></div></div></div></article>
       <article class="card c4"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 1 - Prizes</h2><div class="body-space"><img class="prize-art" src="assets/card4-prize.webp" alt="기프티콘 상품 이미지"></div></div></article>
-      <article class="card c5"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 1 - Lotto</h2><div class="body-space"><div class="lotto-art"><img class="lotto-poster" src="assets/lotto-machine-poster-v1.webp" width="1280" height="1280" alt="알록달록한 공이 담긴 로또 추첨기"><canvas class="lotto-canvas" width="1280" height="1280" role="img" aria-label="투명한 추첨기 안에서 알록달록한 공이 튕기며 섞이는 애니메이션" hidden></canvas></div><a class="lotto-link" tabindex="-1" aria-hidden="true" href="https://forms.gle/CQNBPuRuuqMXwNew8" target="_blank" rel="noopener noreferrer" aria-label="Link - 복권 참여 Google Forms 열기"><svg class="lotto-link-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.2-9.19a4 4 0 1 1 5.65 5.66l-9.2 9.19a2 2 0 1 1-2.82-2.83l8.49-8.48"/></svg><span>Link</span></a></div></div></article>
+      <article class="card c5"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 1 - Lotto</h2><div class="body-space"><div class="lotto-art"><img class="lotto-poster" src="assets/lotto-machine-poster-v1.webp" width="1280" height="1280" alt="알록달록한 공이 담긴 로또 추첨기"><canvas class="lotto-canvas" width="1280" height="1280" role="img" aria-label="투명한 추첨기 안에서 알록달록한 공이 튕기며 섞이는 애니메이션" hidden></canvas></div><h2 class="lotto-question" aria-hidden="true">나는 몇 등일까요?</h2><a class="lotto-link" tabindex="-1" aria-hidden="true" href="https://forms.gle/CQNBPuRuuqMXwNew8" target="_blank" rel="noopener noreferrer" aria-label="Link - 복권 참여 Google Forms 열기"><svg class="lotto-link-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.2-9.19a4 4 0 1 1 5.65 5.66l-9.2 9.19a2 2 0 1 1-2.82-2.83l8.49-8.48"/></svg><span>Link</span></a></div></div></article>
+      <article class="card lotto-question-step" data-lotto-step="question" aria-hidden="true" hidden></article>
       <article class="card c6" data-lotto-step="link" aria-hidden="true" hidden></article>
       <article class="card c7"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 2</h2><p class="part-subtitle">뒷풀이 회식</p><div class="body-space"><img class="toast-art" src="assets/card5-toast.svg" alt="두 잔이 부딪히며 반짝이는 건배 애니메이션"></div></div></article>
       <article class="card c8"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 2 - Prizes</h2><p class="part-subtitle">Apple Magic Keyboard</p><div class="body-space"><img class="keyboard-art" src="assets/card6-keyboard-3d-v1.webp" data-poster="assets/card6-keyboard-3d-v1-preview.png" data-video="assets/card6-keyboard-3d-v1.mp4" width="800" height="800" decoding="async" alt="한글·영문 키캡과 금속 본체가 360도로 회전하는 키보드 입체 이미지"></div></div></article>
@@ -146,18 +148,19 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
     <div class="dots" id="dots"></div>
     <nav class="nav" aria-label="카드 이동">
       <button type="button" class="nav-button" id="prevBtn" aria-label="이전 카드로 이동" disabled>이전으로</button>
-      <span class="nav-counter" id="navCounter" aria-live="polite" aria-atomic="true">01 / 11</span>
+      <span class="nav-counter" id="navCounter" aria-live="polite" aria-atomic="true">01 / 12</span>
       <button type="button" class="nav-button" id="nextBtn" aria-label="다음 카드로 이동">다음으로</button>
     </nav>
   </div>
 </section>
 
-<script src="assets/lotto-motion-v4.js"></script>
+<script src="assets/lotto-motion-v5.js"></script>
 <script>
 (()=>{
   const cards=[...document.querySelectorAll('.card')];
   const welcomeLines=[...document.querySelectorAll('.c2 .copy h2 span')];
   const artwork=document.querySelector('.c1 .art');
+  const lottoQuestion=document.querySelector('.c5 .lotto-question');
   const lottoLink=document.querySelector('.c5 .lotto-link');
   const bar=document.querySelector('#bar');
   const dots=document.querySelector('#dots');
@@ -321,22 +324,27 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
     });
 
     cards.forEach((card,i)=>{
-      if(i===5)return; // Navigation step 6 shares the physical fifth card.
-      const slot=i===4&&timeline>=5?5:i;
+      if(card.dataset.lottoStep)return; // Steps 6 and 7 share the physical fifth card.
+      const slot=i===4&&timeline>=6?6:i;
       let y=105,scale=.985,opacity=0,blur=0,copyY=42,copyOpacity=0,z=0;
       if(slot<base){y=-18;scale=.99;opacity=0;blur=reduce?0:1.5;copyY=-48;z=1}
       if(slot===base){const t=local;y=-18*t;scale=1-.01*t;opacity=1-t;blur=reduce?0:1.1*t;copyY=-48*t;copyOpacity=1-t*.92;z=3}
       if(slot===next&&next!==base){const t=local;y=105*(1-t);scale=.985+.015*t;opacity=clamp(t*1.24);blur=reduce?0:1.8*(1-t);copyY=42*(1-t);copyOpacity=clamp((t-.05)/.95);z=4}
       if(base===maxIndex&&slot===maxIndex){y=0;scale=1;opacity=1;blur=0;copyY=0;copyOpacity=1;z=4}
-      // Hold title, housing, size and canvas identity throughout the Link reveal.
-      if(i===4&&timeline>=4&&timeline<=5){y=0;scale=1;opacity=1;blur=0;copyY=0;copyOpacity=1;z=3}
+      // Hold title, housing, size and canvas identity throughout both staged reveals.
+      if(i===4&&timeline>=4&&timeline<=6){y=0;scale=1;opacity=1;blur=0;copyY=0;copyOpacity=1;z=3}
       card.style.setProperty('--y',`${y}vh`);card.style.setProperty('--scale',scale.toFixed(4));card.style.setProperty('--opacity',opacity.toFixed(4));card.style.setProperty('--blur',`${blur.toFixed(2)}px`);card.style.setProperty('--copy-y',`${copyY.toFixed(2)}px`);card.style.setProperty('--copy-opacity',copyOpacity.toFixed(4));card.style.zIndex=z;
     });
-    const linkReveal=clamp(timeline-4);
+    const questionReveal=clamp(timeline-4);
+    lottoQuestion.style.setProperty('--lotto-question-opacity',questionReveal.toFixed(4));
+    lottoQuestion.style.setProperty('--lotto-question-rise',`${(reduce?0:40*(1-questionReveal)).toFixed(2)}px`);
+    lottoQuestion.style.visibility=questionReveal>0?'visible':'hidden';
+    lottoQuestion.setAttribute('aria-hidden',String(!(timeline>=5&&timeline<=6)));
+    const linkReveal=clamp(timeline-5);
     lottoLink.style.setProperty('--lotto-link-opacity',linkReveal.toFixed(4));
     lottoLink.style.setProperty('--lotto-link-rise',`${(reduce?0:40*(1-linkReveal)).toFixed(2)}px`);
     lottoLink.style.visibility=linkReveal>0?'visible':'hidden';
-    const linkEnabled=targetIndex===5&&Math.abs(timeline-5)<.001;
+    const linkEnabled=targetIndex===6&&Math.abs(timeline-6)<.001;
     lottoLink.style.pointerEvents=linkEnabled?'auto':'none';
     lottoLink.tabIndex=linkEnabled?0:-1;
     lottoLink.setAttribute('aria-hidden',String(!linkEnabled));
