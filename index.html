@@ -104,10 +104,10 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 }
 @media(prefers-reduced-motion:reduce){.card{filter:none!important}.nav-button,.lotto-link{transition:none!important}}
 
-/* One Lotto scene reserves question and Link rows across all three steps. */
+/* One Lotto scene swaps the question and Link within a shared row. */
 .c5 .copy,.c6 .copy{top:clamp(64px,14svh,140px);bottom:calc(132px + env(safe-area-inset-bottom));min-width:0}
 .c5 .copy h2,.c6 .copy h2{flex:0 0 auto;font-size:clamp(24px,8vw,54px);white-space:nowrap}
-.c5 .copy .body-space,.c6 .copy .body-space{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto auto;justify-content:stretch;justify-items:center;align-items:center;gap:clamp(8px,1.6svh,16px);margin-top:clamp(10px,2svh,24px);min-width:0;min-height:0;width:100%}
+.c5 .copy .body-space,.c6 .copy .body-space{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) minmax(58px,auto);justify-content:stretch;justify-items:center;align-items:center;gap:clamp(8px,1.6svh,16px);margin-top:clamp(10px,2svh,24px);min-width:0;min-height:0;width:100%}
 .c5 .lotto-art,.c6 .lotto-art{position:relative;align-self:stretch;justify-self:center;width:100%;max-width:540px;min-height:0;overflow:hidden}
 .c5 .lotto-art canvas,.c5 .lotto-art img,.c6 .lotto-art canvas,.c6 .lotto-art img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;mix-blend-mode:lighten}
 .c5 .lotto-art [hidden],.c6 .lotto-art [hidden]{display:none}
@@ -121,6 +121,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 
 /* Steps 5, 6 and 7 share one fixed title and continuous ball simulation. */
 .card[data-lotto-step][hidden]{display:none}
+.c5 .copy .lotto-question,.c5 .copy .lotto-link{grid-area:2 / 1;align-self:center;justify-self:center}
 .c5 .copy .lotto-question{width:100%;text-align:center;opacity:var(--lotto-question-opacity,0);transform:translate3d(0,var(--lotto-question-rise,40px),0);visibility:hidden;will-change:transform,opacity}
 .c5 .copy .lotto-link{opacity:var(--lotto-link-opacity,0);transform:translate3d(0,var(--lotto-link-rise,40px),0);visibility:hidden;pointer-events:none;transition:background .2s,box-shadow .2s;will-change:transform,opacity}
 .c5 .copy .lotto-link:active{transform:translate3d(0,var(--lotto-link-rise,40px),0) scale(.97)}
@@ -336,11 +337,13 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
       card.style.setProperty('--y',`${y}vh`);card.style.setProperty('--scale',scale.toFixed(4));card.style.setProperty('--opacity',opacity.toFixed(4));card.style.setProperty('--blur',`${blur.toFixed(2)}px`);card.style.setProperty('--copy-y',`${copyY.toFixed(2)}px`);card.style.setProperty('--copy-opacity',copyOpacity.toFixed(4));card.style.zIndex=z;
     });
     const questionReveal=clamp(timeline-4);
-    lottoQuestion.style.setProperty('--lotto-question-opacity',questionReveal.toFixed(4));
-    lottoQuestion.style.setProperty('--lotto-question-rise',`${(reduce?0:40*(1-questionReveal)).toFixed(2)}px`);
-    lottoQuestion.style.visibility=questionReveal>0?'visible':'hidden';
-    lottoQuestion.setAttribute('aria-hidden',String(!(timeline>=5&&timeline<=6)));
     const linkReveal=clamp(timeline-5);
+    const questionOpacity=questionReveal*(1-linkReveal);
+    lottoQuestion.style.setProperty('--lotto-question-opacity',questionOpacity.toFixed(4));
+    lottoQuestion.style.setProperty('--lotto-question-rise',`${(reduce?0:40*(1-questionReveal)-40*linkReveal).toFixed(2)}px`);
+    lottoQuestion.style.visibility=questionOpacity>0?'visible':'hidden';
+    const questionEnabled=targetIndex===5&&Math.abs(timeline-5)<.001;
+    lottoQuestion.setAttribute('aria-hidden',String(!questionEnabled));
     lottoLink.style.setProperty('--lotto-link-opacity',linkReveal.toFixed(4));
     lottoLink.style.setProperty('--lotto-link-rise',`${(reduce?0:40*(1-linkReveal)).toFixed(2)}px`);
     lottoLink.style.visibility=linkReveal>0?'visible':'hidden';
