@@ -141,9 +141,9 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
       <article class="card c6" data-lotto-step="link" aria-hidden="true" hidden></article>
       <article class="card c7"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 2</h2><p class="part-subtitle">뒷풀이 회식</p><div class="body-space"><img class="toast-art" src="assets/card5-toast.svg" alt="두 잔이 부딪히며 반짝이는 건배 애니메이션"></div></div></article>
       <article class="card c8"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 2 - Prizes</h2><p class="part-subtitle">소고기 기프티콘</p><div class="body-space"><img class="beef-art" src="assets/card9-beef.webp" width="640" height="480" loading="lazy" decoding="async" alt="검은 접시에 담긴 마블링 소고기 사진"></div></div></article>
-      <article class="card c9"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 2 - Prizes</h2><p class="part-subtitle">Apple Magic Keyboard</p><div class="body-space"><img class="keyboard-art" src="assets/card6-keyboard-3d-v1.webp" data-poster="assets/card6-keyboard-3d-v1-preview.png" data-video="assets/card6-keyboard-3d-v1.mp4" width="800" height="800" decoding="async" alt="한글·영문 키캡과 금속 본체가 360도로 회전하는 키보드 입체 이미지"></div></div></article>
-      <article class="card c10"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 2 - Prizes</h2><p class="part-subtitle">Apple Watch SE 3</p><div class="body-space"><img class="watch-art" src="assets/card6-watch-3d-v3.webp" data-poster="assets/card6-watch-3d-v3-preview.png" data-video="assets/card6-watch-3d-v3.mp4" width="800" height="800" decoding="async" alt="옆면과 뒷면까지 360도로 회전하는 애플워치 입체 이미지"></div></div></article>
-      <article class="card c11"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 2 - Prizes</h2><p class="part-subtitle">AirPods Pro 3</p><div class="body-space"><img class="airpods-art" src="assets/card7-airpods-3d-v3.webp" data-poster="assets/card7-airpods-3d-v3-preview.png" data-video="assets/card7-airpods-3d-v3.mp4" width="800" height="800" decoding="async" alt="옆면과 뒷면까지 360도로 회전하는 에어팟 프로 입체 이미지"></div></div></article>
+      <article class="card c9"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 2 - Prizes</h2><p class="part-subtitle">Apple Magic Keyboard</p><div class="body-space"><video class="keyboard-art" width="800" height="800" muted playsinline webkit-playsinline loop preload="metadata" poster="assets/card6-keyboard-3d-v1-preview.png" data-fallback="assets/card6-keyboard-3d-v1.webp" aria-label="한글·영문 키캡과 금속 본체가 360도로 회전하는 키보드 입체 이미지"><source src="assets/card6-keyboard-3d-v1.mp4" type="video/mp4"></video></div></div></article>
+      <article class="card c10"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 2 - Prizes</h2><p class="part-subtitle">Apple Watch SE 3</p><div class="body-space"><video class="watch-art" width="800" height="800" muted playsinline webkit-playsinline loop preload="metadata" poster="assets/card6-watch-3d-v3-preview.png" data-fallback="assets/card6-watch-3d-v3.webp" aria-label="옆면과 뒷면까지 360도로 회전하는 애플워치 입체 이미지"><source src="assets/card6-watch-3d-v3.mp4" type="video/mp4"></video></div></div></article>
+      <article class="card c11"><div class="art"></div><div class="shade"></div><div class="copy"><h2>Part 2 - Prizes</h2><p class="part-subtitle">AirPods Pro 3</p><div class="body-space"><video class="airpods-art" width="800" height="800" muted playsinline webkit-playsinline loop preload="metadata" poster="assets/card7-airpods-3d-v3-preview.png" data-fallback="assets/card7-airpods-3d-v3.webp" aria-label="옆면과 뒷면까지 360도로 회전하는 에어팟 프로 입체 이미지"><source src="assets/card7-airpods-3d-v3.mp4" type="video/mp4"></video></div></div></article>
     </div>
     <div class="progress"><span id="bar"></span></div>
     <div class="dots" id="dots"></div>
@@ -169,32 +169,49 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
   const nextBtn=document.querySelector('#nextBtn');
   const navCounter=document.querySelector('#navCounter');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Keep a moving fallback for WebP load/decode errors, including cached 404s.
-  document.querySelectorAll('img[data-video]').forEach(img=>{
-    if(reduce){img.src=img.dataset.poster;return;}
-    const recover=()=>{
-      if(!img.isConnected)return;
-      const video=document.createElement('video');
-      video.className=img.className;
-      video.width=800;video.height=800;
-      video.muted=true;video.autoplay=true;video.loop=true;video.playsInline=true;
-      video.poster=img.dataset.poster;video.src=img.dataset.video;
-      video.setAttribute('aria-label',img.alt);
-      // If autoplay is blocked, keep the poster visible and let the user play it.
-      video.addEventListener('error',()=>{
-        const poster=document.createElement('img');
-        poster.className=img.className;poster.alt=img.alt;poster.src=img.dataset.poster;
-        video.replaceWith(poster);
-      },{once:true});
-      img.replaceWith(video);
+  // Use compact MP4 as the primary product animation. On an unsupported video, fall back to WebP.
+  // Only the product on the active card plays; this avoids decoding three animations at once on iOS.
+  const prizeVideos=[...document.querySelectorAll('video[data-fallback]')];
+  prizeVideos.forEach(video=>{
+    if(reduce){
+      const still=document.createElement('img');
+      still.className=video.className;
+      still.src=video.poster;
+      still.alt=video.getAttribute('aria-label')||'상품 이미지';
+      still.width=video.width;
+      still.height=video.height;
+      video.replaceWith(still);
+      return;
+    }
+    video.muted=true;
+    video.playsInline=true;
+    const useFallback=()=>{
+      if(!video.isConnected)return;
+      const image=document.createElement('img');
+      image.className=video.className;
+      image.src=video.dataset.fallback;
+      image.alt=video.getAttribute('aria-label')||'상품 이미지';
+      image.width=video.width;
+      image.height=video.height;
+      video.replaceWith(image);
+    };
+    video.addEventListener('error',useFallback,{once:true});
+    video.querySelector('source')?.addEventListener('error',useFallback,{once:true});
+  });
+  function syncPrizeVideos(){
+    prizeVideos.forEach(video=>{
+      if(!video.isConnected)return;
+      const active=!document.hidden && video.closest('.card')===cards[targetIndex];
+      if(!active){video.pause();return;}
       video.play().catch(()=>{
+        // iOS Low Power Mode may reject autoplay; expose native playback controls then.
+        if(!video.isConnected || document.hidden || video.closest('.card')!==cards[targetIndex])return;
         video.controls=true;
         video.style.pointerEvents='auto';
       });
-    };
-    img.addEventListener('error',recover,{once:true});
-    if(img.complete&&img.naturalWidth===0)recover();
-  });
+    });
+  }
+  document.addEventListener('visibilitychange',syncPrizeVideos);
   const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
   const ease=t=>1-Math.pow(1-clamp(t),3);
   // Every full card step uses the same 500 ms ease-in-out, in either direction.
@@ -380,6 +397,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
       duration=Math.max(140,CARD_TRANSITION_MS*Math.abs(toIndex-fromIndex));
     }
     targetIndex=nextIndex;
+    syncPrizeVideos();
     prevBtn.disabled=targetIndex===0;
     nextBtn.disabled=targetIndex===cards.length-1;
     navCounter.textContent=`${String(targetIndex+1).padStart(2,'0')} / ${String(cards.length).padStart(2,'0')}`;
